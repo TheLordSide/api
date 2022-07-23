@@ -5,27 +5,36 @@ $pdo= getconnexion();
 function register(){
 
     if($_SERVER['REQUEST_METHOD']=='POST'){
-        if(!empty($_POST['compte_user_mail']) || !empty($_POST['compte_password'])){
-            global $pdo;
-            $requete=$pdo->prepare("INSERT INTO `compte` (`compte_user_mail`, `compte_password`, `compte_confirmed_at`) VALUES ( :valeur1, :valeur2, NULL);");
-            $requete->bindParam(':valeur1',$_POST['compte_user_mail']);
-            $requete->bindParam(':valeur2',$_POST['compte_password']);
-            $requete->execute();
-            resultjson(true,"le compte a ete creer");
-            
+        if(!empty($_POST['compte_user_mail']) || !empty($_POST['compte_password']) || !empty($_POST['compte_nom']) || !empty($_POST['compte_prenom'])){
+            try
+             {
+                userexist($_POST['compte_user_mail']);
+                }
+        
+            catch(Exception $zzz){
+                echo $zzz;
+            }
+           
         }
         else{
-            resultjson(false,"email ou mot de passe vide");
+            resultjson(false,"Plusieurs informations manquant");
 
+    }
+}
+}
+
+
+function userexist($email){
+    global $pdo;
+    $requete = $pdo->prepare("SELECT * from compte where compte_user_mail =:val_email");
+    $requete->bindParam('val_email',$email);
+    $requete->execute();
+    if ($requete-> rowcount()){
+        resultjson(false,"les informations entrées indiquent que le compte exite déjà");  
     }
 
 }
-}
 
-
-
-if($_SERVER['REQUEST_METHOD']=='GET'){
-}
 
 if($_SERVER['REQUEST_METHOD']=='POST'){
     register();
