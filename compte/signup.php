@@ -6,10 +6,10 @@ $pdo= getconnexion();
 function signup(){
     global $pdo;
     if($_SERVER['REQUEST_METHOD']=='POST'){
-        if(!empty($_POST['compte_user_mail']) || !empty($_POST['compte_password'])){
+        if(!empty($_POST['compte_user_mail']) && !empty($_POST['compte_password'])){
             global $pdo;
             try {
-                $requete=$pdo->prepare("SELECT * FROM compte where compte_user_mail =:valeur1 and compte_password =:valeur2;");
+                $requete=$pdo->prepare("SELECT * FROM etudiants where etudiants_email =:valeur1 and etudiants_password =:valeur2;");
                 $requete->bindParam(':valeur1',$_POST['compte_user_mail']);
                 $requete->bindParam(':valeur2',$_POST['compte_password']);
                 $requete->execute();
@@ -23,7 +23,7 @@ function signup(){
                    // resultjson(true,"ce compte existe",);
                 }
                 else{
-                    resultjson(false,"Connexion impossible: Compte introuvable");
+                    resultjson(false,"Impossible de se connecter");
                 }
             }
             catch(Exception $ex){
@@ -38,5 +38,6 @@ function signup(){
   }
 }
 
-signup();
-
+if($_SERVER['REQUEST_METHOD']=='POST'){
+    signup();
+}

@@ -4,18 +4,17 @@ function getconnexion(){
     try {
         $user ='root';
         $pass = '';
-        $pdo = new PDO('mysql:host=127.0.0.1;dbname=inta_online', $user,$pass);
+        $host = '127.0.0.1';
+        $pdo = new PDO('mysql:host='.$host.';dbname=inta_online', $user,$pass);
         $response["success"]= true;
-        return $pdo;
-       
+        return $pdo;  
     }
     catch(Exception $execpt){
-        resultjson(false,"Connexion impossible");
+        resultjson(false,"Impossible de contacter le serveur pour l'instant");
     }
 
 }
 
-getconnexion();
 
     
 
