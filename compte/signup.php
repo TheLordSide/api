@@ -8,10 +8,11 @@ function signup(){
     if($_SERVER['REQUEST_METHOD']=='POST'){
         if(!empty($_POST['compte_user_mail']) && !empty($_POST['compte_password'])){
             global $pdo;
+            $passw=sha1($_POST['compte_password']);
             try {
-                $requete=$pdo->prepare("SELECT * FROM etudiants where etudiants_email =:valeur1 and etudiants_password =:valeur2;");
+                $requete=$pdo->prepare("SELECT * FROM etudiants where etudiants_email =:valeur1 and etudiants_password =:valeur2 and etudiants_confirmed_status='true';");
                 $requete->bindParam(':valeur1',$_POST['compte_user_mail']);
-                $requete->bindParam(':valeur2',$_POST['compte_password']);
+                $requete->bindParam(':valeur2',$passw);
                 $requete->execute();
                 if ($requete-> rowcount()){
                     $response["success"]=true;
@@ -23,7 +24,7 @@ function signup(){
                    // resultjson(true,"ce compte existe",);
                 }
                 else{
-                    resultjson(false,"Impossible de se connecter");
+                    resultjson(false,"Impossible de se connecter car compte non confirmé");
                 }
             }
             catch(Exception $ex){

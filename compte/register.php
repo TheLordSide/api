@@ -8,10 +8,10 @@ function register(){
 
     if($_SERVER['REQUEST_METHOD']=='POST'){
         if(!empty($_POST['compte_user_mail']) || !empty($_POST['compte_password']) || !empty($_POST['compte_nom']) || !empty($_POST['compte_prenom'])){
-            userexist($_POST['compte_user_mail'],$_POST['compte_nom'],$_POST['compte_prenom'],$_POST['compte_password']); 
+            userexist($_POST['compte_user_mail'],$_POST['compte_nom'],$_POST['compte_prenom'],sha1($_POST['compte_password'])); 
         }
         else{
-            resultjson(false,"Plusieurs informations manquant");
+            resultjson(false,"Plusieurs informations manquantes");
 
     }
 }
@@ -21,7 +21,7 @@ function register(){
 function userexist($email,$nom,$prenom,$mdp){
     global $pdo;
     //verification de l'unicite du email
-    $requete = $pdo->prepare("SELECT * from etudiants where etudiants_email =:val_email");
+    $requete = $pdo->prepare("SELECT * from etudiants where etudiants_email =:val_email and etudiants_confirmed_status='true'");
     $requete->bindParam('val_email',$email);
     $requete->execute();
     if ($requete-> rowcount()){
@@ -43,10 +43,8 @@ function userexist($email,$nom,$prenom,$mdp){
                 $insertion->bindParam('val_otp',$OTP);
                 $insertion->execute();
                 $response["success"]=true;
-                $response["message"]="Vous avez crééz votre compte avec succès. Rendez-vous à votre adresse mail pour confirmer";
+                $response["message"]="Vous avez crééz votre compte avec succès. Rendez-vous à votre adresse mail pour confirmer ";
                 $response["email"]=$email;
-                $response["nom"]=$nom;
-                $response["prenom"]=$prenom;
                 echo json_encode($response);
                 //envoie mail
                 Sendmail($_POST['compte_user_mail'], $_POST['compte_nom'], $OTP);

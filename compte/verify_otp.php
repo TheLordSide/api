@@ -20,7 +20,7 @@ function verifyotp(){
             }
         }
         else{
-            resultjson(false,"Aucun code OTP saisi, consultez votre mail pour obtenir le code OTP");
+            resultjson(false,"Aucun code OTP saisi, consultez votre mail pour obtenir le code");
         }
 
     }

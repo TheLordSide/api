@@ -4,7 +4,7 @@ function getconnexion(){
     try {
         $user ='root';
         $pass = '';
-        $host = '127.0.0.1';
+        $host = 'localhost';
         $pdo = new PDO('mysql:host='.$host.';dbname=inta_online', $user,$pass);
         $response["success"]= true;
         return $pdo;  

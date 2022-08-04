@@ -8,12 +8,13 @@ require 'C:/xampp/htdocs/PHPMailer/src/Exception.php';
 require 'C:/xampp/htdocs/PHPMailer/src/PHPMailer.php';
 require 'C:/xampp/htdocs/PHPMailer/src/SMTP.php';
 require("../config/generate_OTP.php");
+include_once("../config/json-header.php");
 
 function Sendmail($destinataire,$nom_destinataire, $OTP){
        //Server settings
     $mail = new PHPMailer(true);
-    try{
-        $mail->SMTPDebug = SMTP::DEBUG_SERVER; 
+    try{ 
+        $mail->SMTPDebug = 0;
         $mail->setLanguage('fr', '../PHPMailer/language/');  
         $mail->isSMTP();                                                            // envoi avec le SMTP du serveur
         $mail->Host       = 'smtp.gmail.com';                            // serveur SMTP
@@ -29,13 +30,16 @@ function Sendmail($destinataire,$nom_destinataire, $OTP){
         
             //Content
         $mail->isHTML(true);                                  //Set email format to HTML
-        $mail->Subject = "Votre code OTP $nom_destinataire";
-        $mail->Body    = "Voici votre code OTP : $OTP";
-        $mail->AltBody = "Voici votre code OTP : $OTP";
+        $mail->Subject = "Code de veerification $nom_destinataire";
+        $mail->Body    = "Voici votre code code de vérification : $OTP";
+        $mail->AltBody = "Voici votre code code de vérification : $OTP";
         $mail->send();  
     }
     catch(Exception $mailex){
-        echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
+        $response["success"]=false;
+        $response["message"]="Email non envoyé";
+        echo json_encode($response);
+
     }
 
     
