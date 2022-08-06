@@ -4,9 +4,9 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\SMTP;
 use PHPMailer\PHPMailer\Exception;
 
-require 'C:/xampp/htdocs/PHPMailer/src/Exception.php';
-require 'C:/xampp/htdocs/PHPMailer/src/PHPMailer.php';
-require 'C:/xampp/htdocs/PHPMailer/src/SMTP.php';
+require ("../config/PHPMailer/src/Exception.php");
+require ("../config/PHPMailer/src/PHPMailer.php");
+require ("../config/PHPMailer/src/SMTP.php");
 require("../config/generate_OTP.php");
 include_once("../config/json-header.php");
 
