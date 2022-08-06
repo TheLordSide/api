@@ -13,7 +13,7 @@ function getconnexion(){
         $user ='u709774492_inta_online';
         $pass = '@w6P1G2uQ';
         $host = 'sql355.main-hosting.eu';
-        $pdo = new PDO('mysql:host='.$host.';dbname=inta_online', $user,$pass);
+        $pdo = new PDO('mysql:host='.$host.';dbname=u709774492_inta_online', $user,$pass);
         $response["success"]= true;
         return $pdo;  
     }
