@@ -1,3 +1,3 @@
 <?php
 
-echo("welcome");
+echo json_encode("welcome");
