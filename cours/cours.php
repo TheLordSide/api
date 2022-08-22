@@ -6,10 +6,11 @@ function cours(){
     global $pdo;
     $query = $pdo->prepare("select * from cours");
     $query->execute();
-    $response["total"]=$query->rowCount();
-    $response["Liste"]=$query->fetchAll();
     $response["success"]=true;
     $response["message"]="liste des cours disponibles";
+    $response["total"]=$query->rowCount();
+    $response["liste"]=$query->fetchAll();
+   
     echo json_encode($response);
 }
 
