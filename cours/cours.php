@@ -6,7 +6,7 @@ function cours(){
     global $pdo;
     $query = $pdo->prepare("select * from cours");
     $query->execute();
-    $response["liste"]=$query->fetchAll();
+    $response=$query->fetchAll();
    
     echo json_encode($response);
 }
